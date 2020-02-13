@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Curso herramientas de análisis con R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Alex Bajaña" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Curso herramientas de análisis con R
+## Clase 8: ggplot2::presentacion()
+### Alex Bajaña
+### infoRmal
+### 2016/12/12 (Actualizado: 2020-02-13)
+
+---
+
+
+class: inverse, middle, center
+
+# ggplot2
+
+---
+
+#Paquetes que emplearemos en esta clase:
+
+
+```r
+library(tidyverse)
+library(knitr)
+library(lubridate)
+```
+
+- El paquetre &lt;font color = '#d7215b'&gt; knitr &lt;/font&gt; provee funciones para realizar tablas con formato elegante.
+- El paquetre &lt;font color = '#d7215b'&gt; lubridate &lt;/font&gt; provee funciones para manejar eficientemente fechas sin importar el formato.
+
+---
+
+# Simulamos una base de datos
+
+
+```r
+set.seed(1984)
+
+datos_sim &lt;- tibble(
+  id = sample(str_c("ID-",1:100),1000,replace = T),
+  anio = sample(1936:1970,1000,replace = T),
+  mes = sample(1:12,1000,replace = T),
+  dia = sample(1:31,1000,replace = T),
+  sexo = sample(c("Mujer","Hombre"),1000,replace = T),
+  g_edad = sample(c("Joven","Adulto","Anciano"),1000,replace = T),
+  valor = rpois(1000,300),
+  ahorro = rpois(1000,100)
+) 
+```
+
+En esta ocasión se simulará datos de compras y ahorro diario para 100 personas distintas durante los años 1936 y 1970. Los valores de compras vienen dados por una distribución Poisson con lambda 300 y el ahorro con un lambda de 100.
+---
+
+## Diccionario de variables:
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Variables &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Descripción &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; id &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Identificador de la persona &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; anio &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Año de la compra &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; mes &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Mes de la compra &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; dia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Día de la compra &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; sexo &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Sexo del comprador &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; g_edad &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Grupo etario &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; valor &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Valor de la compra &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ahorro &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ahorro &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+En primer lugar vamos a crear una varible que indique la fecha de compra y ahorro. Para:
+
+1. Evaluar las funciones del paquete `lubridate`
+2. Generar un gráfico de linea con `ggplot2`
+---
+
+## Argumentos
+
+Tabla:
+
+
+```r
+*tabla %&gt;%
+  ggplot() + geom_{{tipo}}({{aes}}) 
+```
+
+Mapping:
+
+
+```r
+tabla %&gt;% ggplot() + 
+* geom_{{tipo}}(
+    {{aes}}) 
+```
+
+Aesthetic:
+
+
+```r
+tabla %&gt;% ggplot() + geom_{{tipo}}( 
+*   {{aes}}
+    ) 
+```
+
+...: Otros argumentos:
+
+
+```r
+tabla %&gt;% ggplot() + geom_{{tipo}}( {{aes}},
+*                                   ...)
+```
+---
+
+## Nube de puntos
+
+Grafico básico:
+
+
+```r
+ggplot(data = datos_sim) +
+  geom_point(
+*   mapping = aes(x = valor,
+*                 y = ahorro
+*                 )
+    )
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, middle, center
+
+# Personalización
+
+Añadir **color**, **size**, **alpha**, y **shape** en el aesthetic para hacer más bonito el gráfico.  
+
+.pull-left[
+### Shape:
+![](https://www.datanovia.com/en/wp-content/uploads/dn-tutorials/ggplot2/figures/030-ggplot-point-shapes-r-pch-list-showing-different-point-shapes-in-rstudio-1.png)
+
+]
+
+.pull-right[
+.left[
+- `size`: Puede ser:
+  - Un valor entero si deseo que todos los puntos tengan el mismo tamaño
+  - Una variable numérica que determine el tamaño del punto
+- `color:` Puede ser:
+  - Un string con el nombre del color (en inglés)
+  - Colores HTML (Ejemplo: '#d7215b')
+- `alpha:` Valor entre 0 (transparente) y 1 (solido)
+
+]
+]
+
+
+---
+### Dando formato al gráfico
+
+
+```r
+plot &lt;- mpg %&gt;% 
+  ggplot() + 
+  geom_point(aes(x = displ, 
+                 y = hwy,
+                 color = "red"),
+*            size = 4,
+*            shape = 5,
+*            alpha = 0.5,
+*            show.legend = T) +
+  geom_smooth(
+*   aes(x = displ,
+*       y = hwy),
+*   color = "blue",
+    show.legend = T) +
+  labs(title  = "Gráfico bonito",
+       caption = "Elaborado por: Eric Blair",
+       color = "Variable") +
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+---
+class: inverse, middle, center
+
+# Gráfico personalizado
+
+
+```r
+plot
+```
+
+```
+## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Lubridate
+
+Manejar más rapido y fácil las fechas:
+
+
+```r
+datos_sim &lt;- datos_sim %&gt;% 
+  mutate(fecha_1 = str_c(anio,mes,dia),
+         fecha_2 = str_c(anio,"-",mes,"-",dia ),
+         fecha_3 = str_c(mes,"/",dia,"/",anio ),
+         fecha_4 = str_c(dia,"/",mes,"/",anio ))
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; id &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; fecha_1 &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; fecha_2 &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; fecha_3 &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; fecha_4 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ID-40 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1961415 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1961-4-15 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 4/15/1961 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 15/4/1961 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ID-94 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1945415 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1945-4-15 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 4/15/1945 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 15/4/1945 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ID-20 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 19451227 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1945-12-27 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 12/27/1945 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 27/12/1945 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ID-58 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 19701122 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1970-11-22 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11/22/1970 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 22/11/1970 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ID-81 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1953625 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1953-6-25 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 6/25/1953 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 25/6/1953 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Variantes:
+
+Año, mes, día, el string no tiene separador, revisar las fechas con NA.
+
+
+```r
+ymd(datos_sim$fecha_1) %&gt;% head
+```
+
+```
+## Warning: 699 failed to parse.
+```
+
+```
+## [1] NA           NA           "1945-12-27" "1970-11-22" NA          
+## [6] NA
+```
+
+Año, mes, día, el string tiene separador
+
+
+```r
+ymd(datos_sim$fecha_2) %&gt;% head
+```
+
+```
+## Warning: 20 failed to parse.
+```
+
+```
+## [1] "1961-04-15" "1945-04-15" "1945-12-27" "1970-11-22" "1953-06-25"
+## [6] "1937-09-16"
+```
+
+---
+Mes día año
+
+
+```r
+mdy(datos_sim$fecha_3) %&gt;% head
+```
+
+```
+## Warning: 20 failed to parse.
+```
+
+```
+## [1] "1961-04-15" "1945-04-15" "1945-12-27" "1970-11-22" "1953-06-25"
+## [6] "1937-09-16"
+```
+
+Día mes año
+
+
+```r
+dmy(datos_sim$fecha_3) %&gt;% head
+```
+
+```
+## Warning: 596 failed to parse.
+```
+
+```
+## [1] NA NA NA NA NA NA
+```
+
+---
+
+## Series de tiempo
+
+
+```r
+plot_2 &lt;- datos_sim %&gt;% 
+  mutate(fecha_2 = ymd(fecha_2)) %&gt;% 
+  ggplot()+
+  geom_line(aes(x = fecha_2,y=valor,color = sexo))+
+  geom_smooth(aes(x = fecha_2,y=valor,color = sexo))+
+  facet_grid(sexo~g_edad) # filas ~ columnas
+```
+
+```
+## Warning: 20 failed to parse.
+```
+
+
+```r
+plot_2 &lt;- datos_sim %&gt;%
+  group_by(fecha_2,sexo,g_edad) %&gt;% 
+  summarise(valor = sum(valor) ) %&gt;%
+  ungroup %&gt;% 
+  mutate(fecha_2 = ymd(fecha_2)) %&gt;% 
+  ggplot()+
+  geom_line(aes(x = fecha_2,
+                y=valor,
+                color = sexo))+
+  geom_smooth(aes(x = fecha_2,
+                  y=valor,
+                  color = sexo))+
+  facet_grid(sexo~g_edad) # filas ~ columnas
+```
+
+```
+## Warning: 20 failed to parse.
+```
+---
+
+
+```r
+plot_2
+```
+
+```
+## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+```
+## Warning: Removed 20 rows containing non-finite values (stat_smooth).
+```
+
+```
+## Warning: Removed 8 rows containing missing values (geom_path).
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# Gracias
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

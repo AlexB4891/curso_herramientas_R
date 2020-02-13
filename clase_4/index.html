@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Curso herramientas de análisis con R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Alex Bajaña" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Curso herramientas de análisis con R
+## Clase 4: Manejo de bases de datos I
+### Alex Bajaña
+### infoRmal
+### 2019/11 (Actualizado: 2020-02-13)
+
+---
+
+
+
+
+
+# Principio de los datos ordenados (Tidy data)
+
+"Tidydatasets provide a standardized way to link the structure of a dataset (its physical layout)with its semantics (its meaning)."
+   -  Hadley Wickhamn, [Tidy Data](https://vita.had.co.nz/papers/tidy-data.pdf) 
+
+Reglas generales:
+
+1.  Una variable forma una columna
+2.  Una observación forma una fila
+3.  Cada unidad observacional forma una tabla
+
+¿Cuando no hablamos de *tidy data*?
+
+- Los nombres de las columnas son valores, no nombres de variable
+- Varias variables en una misma columna
+- Varias unidades observacionales en una misma tabla
+- Una misma unidad organizacional en varias tablas
+---
+# Saiku
+
+[Saiku](https://srienlinea.sri.gob.ec/saiku-ui/#cancel) es un sistema implementado por el Servicio de Rentas internas para consultar valores agregados de las cuentas fiscales considerando distintas agregaciones. Para esta presentación se realizó la siguiente consulta:
+
+![](img/saiku.png)
+
+---
+
+## Lectura del archivo:
+
+`R-Base` tiene sus propias funciones de lectura de archivos, cualquiera de estas funciones emplea lógicas de coerción:
+
+
+```r
+tabla &lt;- read.csv("saiku-export.csv")
+```
+
+Nombres de las columnas:
+
+
+```r
+names(tabla)
+```
+
+```
+##  [1] "FAMILIA"                               
+##  [2] "PROVINCIA"                             
+##  [3] "TIPO.CONTRIBUYENTE"                    
+##  [4] "PERTENECE.GRUPO.ECONOMICO"             
+##  [5] "GRAN.CONTRIBUYENTE"                    
+##  [6] "CLASE.CONTRIBUYENTE"                   
+##  [7] "ANIO.FISCAL"                           
+##  [8] "MES.FISCAL"                            
+##  [9] "ESTADO.CONTRIBUYENTE"                  
+## [10] "TOTAL.COMPRAS.LOCALES.E.IMPORTAC..519."
+## [11] "TOTAL.VENTAS.Y.EXPORTACIONES..419."    
+## [12] "IMPUESTO.CAUSADO..601."
+```
+
+---
+
+# Clase/tipo de cada columna
+
+`lapply` aplica una función sobre una `lista` o un `data.frame` y devuelve una lista nombrada con el resultado de la función aplicada:
+
+
+```r
+clases &lt;- lapply(tabla,function(x)class(x))
+str(clases)
+```
+
+```
+## List of 12
+##  $ FAMILIA                               : chr "factor"
+##  $ PROVINCIA                             : chr "factor"
+##  $ TIPO.CONTRIBUYENTE                    : chr "factor"
+##  $ PERTENECE.GRUPO.ECONOMICO             : chr "factor"
+##  $ GRAN.CONTRIBUYENTE                    : chr "factor"
+##  $ CLASE.CONTRIBUYENTE                   : chr "factor"
+##  $ ANIO.FISCAL                           : chr "integer"
+##  $ MES.FISCAL                            : chr "integer"
+##  $ ESTADO.CONTRIBUYENTE                  : chr "factor"
+##  $ TOTAL.COMPRAS.LOCALES.E.IMPORTAC..519.: chr "numeric"
+##  $ TOTAL.VENTAS.Y.EXPORTACIONES..419.    : chr "numeric"
+##  $ IMPUESTO.CAUSADO..601.                : chr "numeric"
+```
+
+---
+
+&gt;`sapply` es una variante de `lapply` pero simplifica al tipo más simple de objeto, `vapply` realiza la misma operación salvo que permite definir el tipo de resultado que se desea.
+
+# Función 'which'
+
+Devuelve las posiciones de una vector y devuelve las posiciones que cumplen dicha condición:
+
+```r
+vector &lt;- sample(1:90,30)
+
+ind &lt;- which(vector %% 4 == 0)
+
+vector[ind] &lt;- 0 
+
+vector
+```
+
+```
+##  [1]  1 19 37 54  0 38  0  0  0 42  0 57 25 65  0 10 70 26 79  0 22 41 49  0 17
+## [26] 30 55  5  0 31
+```
+---
+
+# Series de tiempo sencillas
+
+
+```r
+# Creo una serie de tiempo con el total de ventas:
+vt_ts &lt;- ts(rnorm(36),start = 2015,end = 2017,frequency = 12)
+
+vt_ts
+```
+
+```
+##              Jan         Feb         Mar         Apr         May         Jun
+## 2015  0.28031089  0.57234303 -0.35681467  0.67123714  0.69487317 -1.56473962
+## 2016 -0.61366426  0.10416962  0.26064780 -0.77573027 -1.34045680  0.06926045
+## 2017  0.46726229                                                            
+##              Jul         Aug         Sep         Oct         Nov         Dec
+## 2015 -0.15557546 -1.30807351  0.93068769 -1.01316601 -0.65637688  0.78534056
+## 2016  0.70834550 -1.42565443 -0.22047555  0.34511250 -0.70211172 -0.44101362
+## 2017
+```
+
+---
+
+# Prueba de independencia
+
+
+```r
+Box.test(vt_ts ,type = "Ljung-Box" )
+```
+
+```
+## 
+## 	Box-Ljung test
+## 
+## data:  vt_ts
+## X-squared = 2.4162, df = 1, p-value = 0.1201
+```
+
+
+# Diferenciación:
+
+```r
+# Diferencio la serie con 12 retardos:
+vt_dff &lt;- diff(vt_ts,lag = 12)
+
+vt_dff
+```
+
+```
+##              Jan         Feb         Mar         Apr         May         Jun
+## 2016 -0.89397515 -0.46817341  0.61746247 -1.44696741 -2.03532997  1.63400007
+## 2017  1.08092655                                                            
+##              Jul         Aug         Sep         Oct         Nov         Dec
+## 2016  0.86392097 -0.11758091 -1.15116324  1.35827851 -0.04573484 -1.22635418
+## 2017
+```
+
+---
+
+# Función 'aggregate'
+
+
+```r
+comp &lt;- aggregate(formula = ventas_t ~ fecha + s_petro,
+          data = tabla,
+          FUN = function(x) sum(x)/10e6)
+
+head(comp)
+```
+
+# Conteo simple
+
+
+```r
+table(tabla$FAMILIA)
+```
+
+```
+## 
+##        9        A        B        C        D        E        F        G 
+##      592     9806     5034     9901     3305     5009     8292    11442 
+##        H        I        J        K        L        M        N NO TIENE 
+##     8304     7142     5593     6972     7714     8932     7910       92 
+##        O        P        Q        R        S        T        U        V 
+##     7197     7818     8298     6284     9364     2920     1134      779 
+##        W        X 
+##     1476     1621
+```
+
+
+---
+# Ejercicio:
+
+Quiero comparar las compras de las tres regiones naturales: 
+
+  1. Genero una variable que se llame región natural
+  
+  [Hint:]() Utilizar la función `which` para encontrar las posiciones de las provincias que pertenecen a cada región.
+  
+  2. Agrego las compras por fecha y región natural
+  
+  [Hint:]() Utilizar la función `aggregate` para encontrar las sumas agrupadas por fecha y region natural.
+  
+  3. ¿Durante que mes entre marzo y mayo de 2016 tuvieron las compras más bajas las distintas regiones?  
+   
+  &lt;font color = '#d7215b'&gt;Hint:&lt;/font&gt; Filtro la tabla para las fechas señaladas, empleo la función `split` para guardar en una lista la información de cada una de las regiones. Con `lapply` y la función `which.min` hallo la el mes en que se presenta el minimo  
+
+---
+class: inverse, center, middle
+
+# Gracias
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
