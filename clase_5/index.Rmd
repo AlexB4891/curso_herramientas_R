@@ -15,11 +15,10 @@ output:
 ---
 
 class: inverse, center, middle
+background-image: url(tidyprov.jpg)
+background-size: cover
 
-# Tidyverse
-
-![](img/logo_tidy.jpg)
-![](img/load_tidyverse.png)
+# 1. El universo Tidyverse
 
 ---
 background-image: url(img/workflow.jpg)
@@ -31,9 +30,18 @@ background-size: center
 library(tidyverse)
 ```
 
-# dplyr
 
-Paquete para transfromación de datos en forma **tabular**, integra en R una gramática intuitiva para transformarlos.
+class: inverse, center, middle
+background-image: url(dplyr.jpg)
+background-size: cover
+
+# 2. Manipulando los datos
+
+---
+
+#Dplyr
+
+Paquete para transformación de datos en forma **tabular**, integra en R una gramática intuitiva para transformarlos.
 
 ## Reduciendo una base de datos:
 
@@ -45,10 +53,12 @@ Paquete para transfromación de datos en forma **tabular**, integra en R una gra
 
 ---
 class: inverse, center, middle
+background-image: url(select.jpg)
+background-size: cover
 
-# select()
-
+# 3. Seleccionando los datos
 ---
+# Select()
 
 En todos los paquetes del `tidyverse` está integrada la `tidy evaluation`, un método de evaluación que da una variedad de opciones para programar.
 
@@ -175,13 +185,17 @@ select(tabla, c(2,5,7,11))
 
 ---
 class: inverse, center, middle
+background-image: url(filter.jpg)
+background-size: cover
 
-# filter()
+# 4. Filtrando los datos
 ---
 
 ```{r, eval=FALSE}
 filter(.data, … )
 ```
+
+# filter()
 
 - <font color="#d7215b">.data</font> dataframe o tibble
 - <font color="#d7215b">...</font> operación lógica
@@ -305,10 +319,14 @@ filter(tabla,mes %in% c(5, 6, 7, 8))
 ---
 
 class: inverse, center, middle
+background-image: url(arrange.png)
+background-size: cover
 
-# arrange
+# 5. Ordenando los datos
 ---
-# Operaciones con booleanos
+# arrange
+
+## Operaciones con booleanos
 
 Intersección de condiciones.
 

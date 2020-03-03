@@ -21,7 +21,7 @@ library(DT)
 
 ## Atómicos
 
-La unidad elemental en R es el vector. En un vector es una colección de unicamente un solo tipo o clase:
+La unidad elemental en R es el vector. Un vector es una colección de un solo tipo o clase:
 
 * **logical**
 * **double**
@@ -36,13 +36,13 @@ La unidad elemental en R es el vector. En un vector es una colección de unicame
 * **PosixLt/PosixCt**
 * **Factor**
 
-Los tipos S3 tienen **atributos** transforman los valores atómicos que permiten cubrir una amplia gama de tipos de datos. Por ejemplo una matriz es un vector que posee el atributo `dim`.
+Los tipos S3 tienen **atributos** transforman los valores atómicos que permiten cubrir una amplia gama de tipos de datos. Por ejemplo, una matriz es un vector que posee el atributo `dim`.
 
 ---
 
 ## Logical & character
 
-**logical** Toma los valores de verdadero o false, usualmente resultado de un operador lógico.
+**logical** Toma los valores de `true` o `false`, usualmente resultado de un operador lógico.
 
 ```{r}
 typeof(TRUE)
@@ -59,7 +59,7 @@ typeof('world') # Generalmente se usan dobles comillas
 
 ## Double & integer
 
-**double** - Valores númericos
+**double** - Valores numéricos
 
 ```{r}
 typeof(1.335)
@@ -77,7 +77,7 @@ typeof(1:3)
 
 ## Lists
 
-**Lists** Si en los vectores no se pueden guardar elementos de distintos tipos, en las listas **Sí**
+**Lists** - Si en los vectores no se pueden guardar elementos de distintos tipos, en las listas **Sí**
 
 .small[
 ```{r}
@@ -98,7 +98,7 @@ str(mylist)
 
 ## Estructuras más completas
 
-* **Listas nombradas:** Permiten un acceso más facil a los elementos de una lista.
+* **Listas nombradas:** Permiten un acceso más fácil a los elementos de una lista.
 
 .small[
 ```{r, eval  FALSE}
@@ -109,7 +109,7 @@ names(vertigo)
 ```
 ]
 
-Los vectores tambien pueden ser normbrados.
+Los vectores también pueden ser nombrados.
 ---
 
 .small[
@@ -128,7 +128,7 @@ Matrices y arrays tienen 2 o más dimensiones.
 
 ## Concatenación
 
-Dependiendo de la estructura que se maneje tenemos las siguientes funciones que permiten revisar los principales atributos (no efimeros) de los objetos:
+Dependiendo de la estructura que se maneje tenemos las siguientes funciones que permiten revisar los principales atributos (no efímeros) de los objetos:
 
 ```{r, echo=FALSE}
 
@@ -148,7 +148,7 @@ tibble::tribble(
 
 ## Coerción
 
-R es versatil y resuelve las situaciones incomodas de la forma más lógica, sin embargo hay que ser precavidos:
+R es versátil y resuelve las situaciones incomodas de la forma más lógica, sin embargo hay que ser precavidos:
 
 ```{r}
 c(1, "Hello")
@@ -212,13 +212,13 @@ NaN * NA
 * `c(NA, TRUE)`
 
 .question[
-¿Para que sirve la función `setNames`?
+¿Para qué sirve la función `setNames`?
 ]
 
 
 ---
 .question[
-¿Como describirían el siguiente objeto?
+¿Cómo describirían el siguiente objeto?
 ]
 
 
@@ -270,7 +270,7 @@ grade
 
 ## Dates
 
-Poseeen el atributo "Date" y se pueden interpretar de dos maneras:
+Poseeen el atributo `Date` y se pueden interpretar de dos maneras:
 
 - Fecha
 - Número de días transcurridos desde 1970-01-01
@@ -310,7 +310,7 @@ attributes(now_ct)
 
 ---
 
-## ¿Que hora es ahora punto com?
+## ¿Qué hora es ahora?
 
 Podemos ver que hora es en las distintas zonas horarias:
 
@@ -325,8 +325,8 @@ structure(now_ct, tzone = "Europe/Paris")
 
 ## Data frames
 
-- Son las estructuras más comunmente empleadas en R. Son colecciones de vectores que obligatoriamente deben tener la misma longitud, cada vector es una columna.
-- Una `tibble` es una versión más versatil de `data.frame`
+- Son las estructuras más comúnmente empleadas en R. Son colecciones de vectores que **obligatoriamente** deben tener la misma longitud, cada columna representa un vector.
+- Una `tibble` es una versión más versátil de `data.frame`
 
 ```{r}
 df <- tibble(x = 1:3, y = c("a", "b", "c"))
@@ -345,7 +345,7 @@ class(df$y)
 ```
 
 ---
-## Extracción de un elemento en un data.frame
+## Extracción de un elemento en un dataframe
 
 Creación:
 ```{r}
@@ -406,13 +406,13 @@ second_df[c(2,5),c(1,2)]
 ---
 class: inverse, center, middle
 
-## Para crear nombres sintacticos emplear la comilla invertida `:
+## Para crear nombres sintácticos emplear la comilla invertida `:
 
 ```{r, eval = FALSE}
-elemeto 1 <- c(1,2,3) 
+elemento 1 <- c(1,2,3) 
 # Genera un error por el espacio
 
-`elemeto 1` <- c(1,2,3) 
+`elemento 1` <- c(1,2,3) 
 
 
 ```
@@ -421,7 +421,7 @@ elemeto 1 <- c(1,2,3)
 ---
 ## Conclusiones
 
-- Si sus datos se comportan de formas inesperadas revisar el contenido de los datos y ver su hubo algún tipo de cohersión.
+- Si sus datos presentas patrones inesperados revisar el contenido de los datos y ver si existe algún tipo de coerción.
 - Siempre el análisis empieza por la revisión de los atributos, conjuntos o individuales, del set de datos.
 
 ---

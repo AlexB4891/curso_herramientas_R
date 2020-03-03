@@ -15,6 +15,9 @@ output:
 
 class: inverse,center,middle
 
+background-image: url(aleatorios.jpg)
+background-size: cover
+
 # Números aleatorios
 
 ---
@@ -22,10 +25,10 @@ class: inverse,center,middle
 
 Funciones para distribuciones de probabilidad en
 
-- **`rnorm`:** genera variables normales aleatorias con una media desviación estándar dadas
-- **`dnorm`:** evalúa la densidad de probabilidad Normal (con media y desviación estándar dadas) en un punto (o vector de puntos)
-- **`pnorm`:** evalúa la función de distribución acumulativa para una distribución Normal
-- **`rpois`:** genera variaciones aleatorias de Poisson con una tasa dada
+- **`rnorm`:** genera variables aleatorias que siguen una distribución normal con una media y desviación estándar dadas.
+- **`dnorm`:** evalúa la densidad de probabilidad Normal (con media y desviación estándar dadas) en un punto (o vector de puntos).
+- **`pnorm`:** evalúa la función de distribución acumulativa para una distribución Normal.
+- **`rpois`:** genera variables aleatorias que siguen una distribución de Poisson dado un determinado parámetro.
 
 ---
 
@@ -49,7 +52,7 @@ rnorm(n, mean = 0, sd = 1) # n:tamaño
 
 R maneja un sistema de números *pseudo aleatorios* por lo que el uso de una <span style="color:#21b6d7">**semilla**</span> permite la reproducción de resultados, especialmente útil en simulaciones:
 
-- Se producen 100 cervezas al día. Existe un 10% de probabilidad de encontrar un error ¿Cuantas se deben arreglar al día?
+- Se producen 100 cervezas al día. Existe un 10% de probabilidad de encontrar un error ¿Cuántas se deben arreglar al día?
 
 ```{r}
 set.seed(1)
@@ -114,6 +117,9 @@ data.frame(stringsAsFactors=FALSE,
 ---
 class: inverse,center,middle
 
+background-image: url(repito.jpg)
+background-size: cover
+
 # For loops
 
 ---
@@ -129,22 +135,22 @@ for (indice) {
 ```
 ]
 
-Existen alternativas para los **for loops** que optimizan: 
+Existen alternativas para los bucles que optimizan: 
 
 - Uso de memoria
 - Tiempos de procesamiento
 - TIempo codificando
   
-Son especialmente necesarios en el uso Cadenas de Markov Monte Carlo que dependen del lanzamiento $[i-1]$  de la iteración $i$ 
+Son especialmente necesarios en el uso Cadenas de Markov o simulaciones Monte Carlo que dependen del lanzamiento $[i-1]$  de la iteración $i$ 
 
-## ¿Paralelo o Secuencial?
+## ¿Procesamiento en paralelo osecuencial?
 
 Si las operaciones son independientes y fijas a un indice: <span style="color:#21b6d7">**paralelo**</span>
 
 Caso contrario: <span style="color:#21b6d7">**secuencial**</span>
 
 ---
-## Indice
+## Índice
 
 Secuencia de números enteros:
 

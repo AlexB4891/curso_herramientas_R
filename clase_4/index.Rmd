@@ -17,8 +17,14 @@ output:
 options(htmltools.dir.version = FALSE)
 ```
 
+class: inverse, middle, center
 
-# Principio de los datos ordenados (Tidy data)
+background-image: url(orden.jpg)
+background-size: cover
+
+# 1. Principio de los datos ordenados (Tidy data)
+---
+
 
 "Tidydatasets provide a standardized way to link the structure of a dataset (its physical layout)with its semantics (its meaning)."
    -  Hadley Wickhamn, [Tidy Data](https://vita.had.co.nz/papers/tidy-data.pdf) 
@@ -29,12 +35,13 @@ Reglas generales:
 2.  Una observación forma una fila
 3.  Cada unidad observacional forma una tabla
 
-¿Cuando no hablamos de *tidy data*?
+¿Cuándo no hablamos de *tidy data*?
 
-- Los nombres de las columnas son valores, no nombres de variable
-- Varias variables en una misma columna
-- Varias unidades observacionales en una misma tabla
-- Una misma unidad organizacional en varias tablas
+- Los nombres de las columnas son valores, no nombres de variable.
+- Varias variables en una misma columna.
+- Varias unidades observacionales en una misma tabla.
+- Una misma unidad organizacional en varias tablas.
+
 ---
 # Saiku
 
@@ -87,7 +94,14 @@ vector
 ```
 ---
 
-# Series de tiempo sencillas
+class: inverse, middle, center
+
+background-image: url(provisional.jpg)
+background-size: cover
+
+#2. Series de tiempo 
+
+---
 
 ```{r}
 # Creo una serie de tiempo con el total de ventas:

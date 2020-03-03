@@ -18,7 +18,7 @@ library(tidyverse)
 ```
 
 
-### ¿De que se trata este curso?
+### ¿De qué trata este curso?
 
 Es una revisión de los principales elementos de la ciencia de datos, haciendo hincapié en el desarrollo de aplicaciones web.
 
@@ -32,7 +32,7 @@ Es una revisión de los principales elementos de la ciencia de datos, haciendo h
 - ¿El código realmente hace lo que crees que hace?
 
 
-- Además de lo que se hizo, ¿está claro **por qué** se hizo? (por ejemplo, ¿cómo se eligieron las configuraciones de los parámetros?)
+- Además de lo que se hizo, ¿está claro **por qué** se hizo? (por ejemplo, ¿Cómo se eligieron las configuraciones de los parámetros?)
 
 ### Aún más lejos
 
@@ -67,11 +67,11 @@ Las fuentes de ayuda más frecuentados para desarrollo de R son:
 
 ---
 
-# Introducción a GIT
+# Introducción a Git y Github
 
 ![](img/idea_git.png)
 
-[Libro Introducción a GIT](https://git-scm.com/book/es/v1/Empezando)
+[Libro Introducción a Git](https://git-scm.com/book/es/v1/Empezando)
 
 ---
 class: center, inverse, middle
@@ -84,17 +84,17 @@ class: center, inverse, middle
 
 ### Instalación y conceptos básicos de R y RStudio
 
-Se describe las particularidades de R y RStudio que agilitan el trabajo del usuario. Un análisis sobre el uso de RStudio ha revelado que los usuarios de R, especialmente en América Latina  desconoce de las funcionalidades de RStudio como IDE, en esta primera clase se exploran elementos como los AddIns, ShortCuts y otras herramientas de soporte para el analista.
+Se describe las particularidades de R y RStudio que agilitan el trabajo del usuario. Un análisis sobre el uso de RStudio ha revelado que los usuarios de R, especialmente en América Latina  desconoce de las funcionalidades de RStudio como IDE, en esta primera clase se exploran elementos como los AddIns, ShortCuts y otras herramientas de soporte para los usuarios.
 
-###	Control de versiones con GIT
+###	Control de versiones con Git
 
-El registro de cambios en el tiempo es sin duda una de las piedras angulares para la optimización y mejora continua. GIT ofrece una integración completa con RStudio de tal manera que facilita el registro de la historia de una sintaxis o archivo. En esta ocasión se iniciara describiendo la dinámica de GIT para posteriormente unificarse con el workflow de R.
+El registro de cambios en el tiempo es sin duda una de las piedras angulares para la optimización y mejora continua. Git ofrece una integración completa con RStudio de tal manera que facilita el registro de la historia de una sintaxis o archivo. En esta ocasión se iniciara describiendo la dinámica de Git para posteriormente unificarse con el workflow de R.
 
 ---
 
-###	Operadores lógicos y Condicionales 
+###	Operadores lógicos y condicionales 
 
-En primer lugar se describirán los objetos más básicos de la programación en R, estos son vectores y valores atómicos. En una segunda instancia se desarrolla una serie de operaciones básicas de transformación y extracción de elementos básicos de estructuras complejas como matrices y listas. Finalmente se describen los principales operadores como son los for loops, while, if, break y next,  mismos que permiten la elaboración de rutinas a través de los elementos de un objeto o empleando objetos. 
+En primer lugar se describirán los objetos más básicos de la programación en R, estos son vectores y valores atómicos. En una segunda instancia se desarrolla una serie de operaciones básicas de transformación y extracción de elementos básicos de estructuras complejas como matrices y listas. Finalmente se describen los principales operadores como son los for loops, while, if, break y next, los cuales permiten la elaboración de rutinas usando objetos o sus elementos. 
 
 ###	Funciones
 
@@ -111,7 +111,7 @@ Sin hacer uso de ninguna librería R tiene por default una serie de herramientas
 ---
 class: center, inverse, middle
 
-#	Un recorrido por el Tidyverse
+#	Un recorrido por el universo de Tidyverse
 
 ## (Semana 2):
 
@@ -121,29 +121,29 @@ class: center, inverse, middle
 
 ###	Importación de datos 
 
-Empleando el paquete readr se hará un recorrido por las distintas formas de abrir archivos de distintos formatos, principalmente: textos delimitados, archivos de Excel, archivos SPSS, archivos dta y otros. Además se discute las maneras en que se introducen argumentos para obtener mejores resultados en la apertura de estos archivos.
+Empleando el paquete readr se hará un recorrido por las distintas formas de abrir archivos de distintos formatos, principalmente: archivos .txt, .xlsx, .sav, .dta, .sav entre otros. Además se discute las maneras en las que se introducen argumentos para obtener mejores resultados en la apertura de estos archivos.
 
 ---
 
 ###	Manipulación de bases de datos II
 
-En esta ocasión se emplean los contenidos de la primera entrega del manejo de bases de datos, sin embargo esta vez se emplea los paquetes:
+En esta ocasión se emplean los contenidos de la primera entrega del manejo de bases de datos; sin embargo, esta vez se emplea los paquetes:
 
--	**dplyr:** gramática simplificada para manejo del contenido de bases de datos
--	**tibble:** tipo de datos más liviana y versátil para análisis de datos
--	**tydr:** manipulación de las dimensiones de una tabla
--	**stringr:** manejo de textos
--	**forcats:** manejo de factores
+-	**dplyr:** gramática simplificada para manejo del contenido de bases de datos.
+-	**tibble:** tipo de datos más liviana y versátil para análisis de datos.
+-	**tydr:** manipulación de las dimensiones de una tabla.
+-	**stringr:** manejo de textos.
+-	**forcats:** manejo de factores.
 
 ---
 
 ###	Interfaz gráfica con ggplot2
 
-El paquete ggplot2 nace como una incorporación de “La grámatica gráfica”  de Leland Wilkinson en R, este paquete permite la generación de un sin número de gráficos con una lógica de capas.
+El paquete ggplot2 nace como una incorporación de “La gramática gráfica”  de Leland Wilkinson en R, este paquete permite la generación de un sin número de gráficos con una lógica de capas.
 
 ###	Gráficos dinámicos con plotly
 
-A diferencia del paquete ggplot2, el paquete plotly produce gráficos en HTML que permiten la interacción de los usuarios con los gráficos que se presentan en un navegador web, estos gráficos inicialmente se pueden crear y manipular en el entorno de RStudio, y principalmente se integran fácilmente con aplicaciones web desarrolladas en R.
+A diferencia del paquete ggplot2, el paquete plotly produce gráficos en HTML que permiten la interacción de los usuarios con los gráficos que se presentan en un navegador web. Estos gráficos inicialmente se pueden crear y manipular en el entorno de RStudio, y de manera fácil se integran principalmente con aplicaciones web desarrolladas en R.
 	
 ### Mapas o coropléticos
 
@@ -153,7 +153,7 @@ Sean dinámicos o estáticos los gráficos de mapas requieren un entendimiento d
 
 ### Exportación de datos y gráficos
 
-Para el finalizar de esta semana el analista tendrá la capacidad de abrir y manipular cualquier tipo de archivo sin salir de la interfaz de RStudio. El paso final que debe dar es la exportación de sus resultados a un formato de conveniencia. En este sentido se revisaran las distintas opciones para cumplir con este objetivo y se hará un especial detenimiento en la generación de archivos Excel con formatos.
+Para el finalizar de esta semana el usuario tendrá la capacidad de abrir y manipular cualquier tipo de archivo sin salir de la interfaz de RStudio. El paso final que debe dar es la exportación de sus resultados a un formato de conveniencia. En este sentido se revisaran las distintas opciones para cumplir con este objetivo y se hará un especial detenimiento en la generación de archivos con formato Excel.
 
 ---
 class: center, inverse, middle
