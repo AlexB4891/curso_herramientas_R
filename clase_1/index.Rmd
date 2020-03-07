@@ -18,26 +18,6 @@ library(tidyverse)
 ```
 
 
-### ¿De qué trata este curso?
-
-Es una revisión de los principales elementos de la ciencia de datos, haciendo hincapié en el desarrollo de aplicaciones web.
-
-
-## Principio de reproducibilidad
-
-
-- ¿Las tablas y figuras son reproducibles a partir del código y los datos?
-
-
-- ¿El código realmente hace lo que crees que hace?
-
-
-- Además de lo que se hizo, ¿está claro **por qué** se hizo? (por ejemplo, ¿Cómo se eligieron las configuraciones de los parámetros?)
-
-### Aún más lejos
-
-
-- ¿Es posible extender el código a otro conjunto de datos?
 
 ---
 
