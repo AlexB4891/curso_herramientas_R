@@ -56,7 +56,7 @@ Las fuentes de ayuda más frecuentados para desarrollo de R son:
 ---
 class: center, inverse, middle
 
-#	Introducción a R y RStudio 
+#	Introducción jdgjhdgfkds  R y RStudio 
 
 ## (Semana 1):
 
